@@ -69,6 +69,7 @@
             break;
     }
 
+    /*CON UNA ESTRUCTURA SWITCH CAMBIAR LA VARIABLE DIA A ESPAÑOL */
     ?>
     </body>
 </html>
