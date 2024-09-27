@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fechas</title>
+    <?php
+        error_reporting( E_ALL );
+        ini_set( "display_errors", 1 );    
+    ?>
 </head>
 <body>
     <?php
@@ -62,14 +66,47 @@
         case "Monday":
         case "Wednesday":
         case "Friday":
-            echo "Hoy tenemos clase";
+            echo "Hoy $dia tenemos clase";
             break;
         default:
-            echo "No tenemos clase";
+            echo "No $dia tenemos clase";
             break;
     }
 
     /*CON UNA ESTRUCTURA SWITCH CAMBIAR LA VARIABLE DIA A ESPAÑOL */
+
+    $dia = date("l");
+    $dia_español = null;
+
+    switch($dia){
+        case "Monday":
+            $dia_español = ("Lunes");
+            echo "Hoy $dia_español tenemos clase";
+            break;
+        case "Wednesday":
+            $dia_español = ("Miercoles");
+            echo "Hoy $dia_español tenemos clase";
+            break;
+        case "Friday":
+            $dia_español = ("Viernes");
+            echo "Hoy $dia_español tenemos clase";
+            break;
+    }
+
+    $dia = date("l");
+    $dia_español = null;
+
+    $dia_español = match ($dia) {
+        "Monday" => "Lunes",
+        "Tuesday" => "Martes",
+        "wednesday" => "Miercoles",
+        "Thursday" => "Jueves",
+        "Friday" => "Viernes",
+        "Saturday" => "Sabado",
+        "Sunday" => "Domingo"
+    };
+    echo "<h3>$dia_español</h3>";
+
     ?>
     </body>
 </html>
