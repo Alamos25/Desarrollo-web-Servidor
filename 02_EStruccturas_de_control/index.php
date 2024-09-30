@@ -34,10 +34,18 @@
             </tr>
             <tr>
                 <td>
-                    <a href="Ejercicios.php">fechas.php</a>
+                    <a href="Ejercicios.php">Ejercicios.php</a>
                 </td>
                 <td>
                     Ejercicios.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="bucles.php">Bucles.php</a>
+                </td>
+                <td>
+                    Bucles.
                 </td>
             </tr>
         </tbody>

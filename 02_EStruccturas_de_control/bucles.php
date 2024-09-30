@@ -8,7 +8,6 @@
 <body>
     <?php
     $i = 1;
-
     echo "<ul>";
     while($i <= 10){
         echo "<li>$i</li>";
@@ -29,10 +28,30 @@
     echo "</ul>";
     ?>
 
-    <!-- Ejercicio 2: MOSTRAR EN UNA LISTA LOS MULTIPLOS DE 3 USANDO
-    WHILE E IF
-    EJERCICIO 3: CALCULAR LA SUMA DE LOS NUMEROS PARES ENTRE 1 Y 20
-    EJERCICIO 4: CALCULAR EL FACTORIAL DE 6 CON WHILE
-    -->
+    <h1>Lista con FOR</h1>
+    <?php
+    echo "<ul>";
+    for ($i= 0; $i <= 10; $i++){
+        echo "<li>$i</li>";
+    }
+    echo "</ul>";
+    ?>
+
+    <h1>Lista con FOR con BREAK</h1>
+    <?php
+    echo "<ul>";
+    $i = 1;
+    for(; ;){
+        if($i > 10) {
+            break;
+        }
+        echo "<li>$i</li>";
+        $i++;
+    }
+    echo "</ul>";
+    ?>
+
+
+
 </body>
 </html>
