@@ -163,7 +163,7 @@
         "INGLES" => "VIRGINIA"
     ];
     ?>
-    
+    <!-- sort, rsotr, arsort, ksort, krsort -->
     <table>
         <caption>Insti</caption>
         <thead>
@@ -175,6 +175,7 @@
         <tbody>
             <tr>
                 <?php
+                ksort($asignaturas);
                 foreach($asignaturas as $asignatura => $profesor) {
                     echo "<tr>";
                     echo "<td>$asignatura</td>";
