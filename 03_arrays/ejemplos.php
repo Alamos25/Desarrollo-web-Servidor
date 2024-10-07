@@ -235,5 +235,46 @@
         </tbody>
     </table>
 
+    <?php
+    $alumnos["paula"] = rand(0,10);
+    $alumnos["Waluis"] = rand(0,10);
+
+    unset($alumnos["Samuel"]);
+
+    ksort($alumnos);
+    ?>
+
+    <table>
+        <caption>Estudiantes ordenador por el nombre al revés</caption>
+        <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Nota</th>
+                <th>Resultado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            arsort($alumnos);
+            foreach($alumnos as $alumno => $nota) {
+                echo "<tr>";
+                echo "<td>$alumno</td>";
+                echo "<td>$nota</td>";
+                if($nota < 5){
+                    echo "<td> Suspenso </td>";
+                } else {
+                    echo "<td> Aprobado </td>";
+                }
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+
+    
+    
+
+
+
 </body>
 </html>

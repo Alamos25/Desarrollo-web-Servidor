@@ -127,10 +127,9 @@
         $numero++;
     }
     echo "</ol>";
-
-    
     var_dump($esPrimo);
 
+    
     ?>
 </body>
 </html>
