@@ -80,21 +80,6 @@
                 echo "<td>$gratis</td>";
                 echo "</tr>";
             }
-
-            /**
-             * 1. AÑADIR UN RAND, LA DURACION DE CADA PELICULA.
-             *    ALEATORIO ENTRE 30 Y 240
-             *    
-             * 2. AÑADIR COMO UNA NUEVA COLUMNA EL TIPO DE PELICULA. EL TIPO SERA:
-             *    CORTOMETRAJE, SI LA DURACIÓN ES MENOR QUE 60
-             *    LARGOMETRAJE, SI LA DURACION ES MAYOR O IGUAL QUE 60
-             * 
-             * 3. MOTRAR EN OTRA TABLA, TODAS LAS COLUMNAS, Y ORDENAR ADEMÁS EN ESTE ORDEN:
-             *      1. GÉNERO
-             *      2. AÑO
-             *      3. TITULO (TODO ALFABETICAMENTE, Y EL AÑO DE MAS RECIENTE A MAS ANTIGUO)
-             */
-
             ?>
         </tbody>
     </table>
