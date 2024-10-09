@@ -58,12 +58,12 @@
     </table>
 
     <?php
-    $_nombre = array_column($pelicula, 0);
-    $_tema = array_column($pelicula, 1);
-    $_año = array_column($pelicula, 2);
-    $_duracion = array_column($pelicula, 3);
-    $_tipo_de_pelicula = array_column($pelicula, 4);
-    array_multisort($_tipo_de_pelicula, SORT_ASC, $_año,  SORT_ASC, $_nombre,  SORT_ASC, $pelicula);
+    $_nombre = array_column($peliculas, 0);
+    $_tema = array_column($peliculas, 1);
+    $_año = array_column($peliculas, 2);
+    $_duracion = array_column($peliculas, 3);
+    $_tipo_de_pelicula = array_column($peliculas, 4);
+    array_multisort($_tipo_de_pelicula, SORT_ASC, $_año,  SORT_DESC, $_nombre,  SORT_ASC, $peliculas);
     ?>
 
     <table>
