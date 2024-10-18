@@ -27,7 +27,7 @@
         if($Salario <= 12450){
             $Salario_final += $Salario - ($Salario * 0.19);
         } elseif ($Salario >= 12451 && $Salario <= 20199) {
-            $resto1 += ($Salario - 12451) * 0.24;
+            $resto1 -= ($Salario - 12451) * 0.24;
 
             $Salario_final += $Salario - ($porce1 + $resto1);
         } elseif ($Salario >= 20200 && $Salario <= 35199){
