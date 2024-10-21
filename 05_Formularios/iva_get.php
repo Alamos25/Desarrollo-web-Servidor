@@ -36,8 +36,14 @@
         } else {
             echo "<p>Te faltan datos</p>";
         }
-        
+
     }
+
+
+    //CREAR UNA COPIA DE IRPF.PHP CON GET EN VEZ DE POST Y 
+    //CONTROLAR LOS ERRORES DE ENVIAR EL FORMULARIO VACIO
+
+    //https://github.com/Alesa95/desarrollo-web-servidor-2024/blob/main/04_formularios/irpf.php
     ?>
 </body>
 </html>
