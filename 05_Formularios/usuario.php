@@ -43,18 +43,22 @@
 
                 if($anno_actual - $anno < 18){
                     $err_fecha = "No puedes ser menor de 18";
-                } else if($anno_actual - $anno == 0){
+                } elseif($anno_actual - $anno == 0){
                     if($mes_actual - $mes < 0){
                         //ES menor de edad
+                        $err_fecha = "No puedes ser menor de 18";
                     } elseif($mes_actual - $mes == 0){
                         // no sabemos, tenmos que mirar el dia
-                        if($dia_actual - $dia == 0){
+                        if($dia_actual - $dia < 0){
                             //es mayor de edad
+                            $err_fecha = "No puedes ser menor de 18";
                         } else {
                             //es menor de edad
+                            
                         }
                     } elseif($mes_actual - $mes > 0){
                         //Es mayor de edad
+                        
                     }
                 }
             }

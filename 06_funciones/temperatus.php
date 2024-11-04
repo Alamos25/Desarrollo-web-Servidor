@@ -2,7 +2,7 @@
     // vamos a crear una funcion que reciba la temperatura, la unidad
     //inicial y la final, y devuelva la temperatura final
 
-    function convertirTemperatura($temperaturaInicial, $unidadInicial, $unidadFinal) {
+    function convertirTemperatura(int|float $temperaturaInicial, int|float $unidadInicial, int|float $unidadFinal) : float{
         $temperaturaFinal = $temperaturaInicial;
 
         if($unidadInicial == "C") {

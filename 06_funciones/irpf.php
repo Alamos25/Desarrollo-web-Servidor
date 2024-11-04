@@ -1,5 +1,5 @@
 <?php
-    function calcularIRPF($salario) {
+    function calcularIRPF(int|float $salario) : float{
         $salario_final = null;
         
         $tramo1 = (12450 * 0.19);
