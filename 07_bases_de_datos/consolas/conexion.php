@@ -1,5 +1,5 @@
 <?php
-    $_servidor = "127.0.0.1";//o "localhost, que realmente es un alias"
+    $_servidor = "127.0.0.1";
     $_usuario = "estudiante";
     $_contrasena = "estudiante";
     $_base_de_datos = "consolas_bd";
