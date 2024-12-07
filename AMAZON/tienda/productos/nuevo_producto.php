@@ -9,56 +9,77 @@
         .error {
             color: red;
         }
+        .cuerpo {
+            margin-left: 10px;
+        }
     </style>
     <?php
         error_reporting(E_ALL);
         ini_set("display_errors", 1);
+
         require('../util/conexion.php');
+
+        function depurar(string $entrada) : string {
+            $salida = htmlspecialchars($entrada); 
+            $salida = trim($salida); 
+            $salida = stripslashes($salida); 
+            $salida = preg_replace('/\s+/', ' ', $salida); 
+            return $salida; 
+        }
     ?>
 </head>
-<body>
-    <h1>Crear Nuevo Producto</h1>
+<body class="cuerpo">
+    <h1>Crear nuevo producto</h1>
     <?php
-        // Inicialización de variables
-        $nombre = $precio = $stock = $categoria = $descripcion = $imagen = "";
-        $err_nombre = $err_precio = $err_categoria = $err_descripcion = $err_imagen = "";
+        $nombre = "";
+        $precio = "";
+        $stock = "";
+        $categoria = "";
+        $descripcion = "";
+        $imagen = "";
 
-        // Obtener las categorías para el select
+        $err_nombre = "";
+        $err_precio = "";
+        $err_categoria = "";
+        $err_descripcion = "";
+        $err_imagen = "";
+
         $sql = "SELECT * FROM categorias";
-        $categorias = $_conexion->query($sql);
+        $categorias = $_conexion -> query($sql);
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Validación del nombre
-            $tmp_nombre = $_POST['nombre'];
-            $tmp_precio = $_POST['precio'];
-            $stock = $_POST['stock'];
-            $tmp_categoria = $_POST['categoria'];
+            $tmp_nombre = depurar($_POST['nombre']);
+            $tmp_precio = depurar($_POST['precio']);
+            $stock = depurar($_POST['stock']);
+            if(isset($_POST["categoria"])){
+                $tmp_categoria = $_POST["categoria"];
+            } else {
+                $tmp_categoria = "";
+            }
             $tmp_descripcion = $_POST["descripcion"];
             $tmp_imagen = $_FILES["imagen"]["name"];
 
             if ($tmp_nombre == '') {
-                $err_nombre = "El nombre es obligatorio";
+                $err_nombre = "Nombre obligatorio";
             } elseif (strlen($tmp_nombre) < 3 || strlen($tmp_nombre) > 50) {
-                $err_nombre = "El nombre debe tener entre 3 y 50 caracteres";
+                $err_nombre = "Debe tener entre 3 y 50 caractere";
             } else {
                 $nombre = $tmp_nombre;
             }
 
-            // Validación del precio
             if ($tmp_precio == '') {
-                $err_precio = "El precio es obligatorio";
+                $err_precio = "Precio es obligatorio";
             }else{
                 $patron = "/^[0-9]{1,4}(\.[0-9]{1,2})?$/";
                 if (!preg_match($patron, $tmp_precio)) {
-                    $err_precio = "El precio debe ser un número válido con hasta 4 dígitos y 2 decimales";
+                    $err_precio = "Hasta 4 dígitos y 2 decimales";
                 } else {
                     $precio = $tmp_precio;
                 }
             } 
 
-            // Validación de la categoría
             if ($tmp_categoria == '') {
-                $err_categoria = "Debe seleccionar una categoría";
+                $err_categoria = "Categoria obligatoria";
             } else {
                 $categoria = $tmp_categoria;
             }
@@ -67,34 +88,27 @@
                 $stock = 0;
             }
 
-            // Validación de la descripción
             if ($tmp_descripcion == '') {
-                $err_descripcion = "La descripción es obligatoria";
+                $err_descripcion = "Descripcion obligatoria";
             } else {
                 $descripcion = $tmp_descripcion;
             }
 
-            // Validación de la imagen
             if ($tmp_imagen == '') {
-                $err_imagen = "Debes ingresar una imagen";
-            } else {
-                $tmp_imagen = $_FILES["imagen"]["name"];
-                $ubicacion_temporal = $_FILES["imagen"]["tmp_name"];
-                $ubicacion_final = "./imagen/$tmp_imagen";
+                $err_imagen = "Debes ingresar una imagen"; 
+           } else { 
+               $tmp_imagen = $_FILES["imagen"]["name"]; 
+               $ubicacion_temporal = $_FILES["imagen"]["tmp_name"]; 
+               $ubicacion_final = "./imagen/$tmp_imagen"; 
+           }
 
-                if (!move_uploaded_file($ubicacion_temporal, $ubicacion_final)) {
-                    $err_imagen = "Error al subir la imagen";
-                }
-            }
-
-            // Si todas las validaciones pasan
             if (isset($nombre, $precio, $categoria, $descripcion, $tmp_imagen) && !$err_nombre && !$err_precio && !$err_categoria && !$err_descripcion && !$err_imagen) {
                 $sql = "INSERT INTO productos (nombre, precio, stock, categoria, imagen, descripcion) 
                         VALUES ('$nombre', '$precio', '$stock', '$categoria', '$tmp_imagen', '$descripcion')";
                 if ($_conexion->query($sql)) {
-                    echo "<p class='text-success'>Producto creado correctamente.</p>";
+                    echo "<p>Producto creado con exito.</p>";
                 } else {
-                    echo "<p class='text-danger'>Error al crear el producto: " . $_conexion->error . "</p>";
+                    echo "<p>Error producto no creado: " . $_conexion->error . "</p>";
                 }
             }
         }
@@ -118,7 +132,7 @@
         <div class="mb-3">
             <label class="form-label" for="categoria">Categoría:</label>
             <select class="form-select" name="categoria">
-            <option value="">Seleccione una categoría</option>
+            <option disabled selected hidden>Seleccione una categoría</option>
             <?php while ($categoria = $categorias->fetch_assoc()): ?>
                 <option value="<?php echo htmlspecialchars($categoria['categoria']); ?>" 
                     <?php echo (isset($categoria) && $categoria == $categoria['categoria']) ? 'selected' : ''; ?>>

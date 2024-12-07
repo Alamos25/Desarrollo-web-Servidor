@@ -16,14 +16,13 @@
     <div class="container">
         <h1>Editar Categoría</h1>
         <?php
-        //echo "<h1>".$_GET['categoria']."</h1>";
-        
+
         $categoria = $_GET["categoria"];
         $sql = "SELECT * FROM categorias WHERE categoria = '$categoria'";
-        $resultado= $_conexion -> query($sql);
+        $resultado = $_conexion -> query($sql);
 
         
-        while($fila = $resultado -> fetch_assoc()){
+        while ($fila = $resultado -> fetch_assoc()){
             $categoria= $fila["categoria"];
             $descripcion = $fila["descripcion"];
             
@@ -37,7 +36,6 @@
         while($fila = $resultado -> fetch_assoc()){
             array_push($categorias, $fila["categoria"]);
         }
-        //print_r($estudios);
         
         if($_SERVER["REQUEST_METHOD"] == "POST" ){
             $categoria = $_POST["categoria"];
@@ -47,19 +45,19 @@
                 descripcion = '$descripcion'
                 WHERE categoria = '$categoria'
             ";
+
+
             $_conexion -> query($sql);
         }
         ?>
-        
         <form class="col-6" action="" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label">Categoria</label>
                 <input class="form-control" type="text"  value ="<?php echo $categoria?>" disabled>
                 <input class="form-control" type="hidden" name="categoria" value ="<?php echo $categoria?>" >
-
             </div>
             <div class="mb-3">
-                <label class="form-label" for="descripcion" >Descripción:</label>
+                <label class="form-label" for="descripcion" >Descripcion:</label>
                 <textarea  name="descripcion" rows="4" cols="50" required></textarea>
             </div>
             <div class="mb-3">

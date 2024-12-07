@@ -10,14 +10,34 @@
     ini_set("display_errors", 1);
     
     require('../util/conexion.php');
+    session_start();
 
+    if(!isset($_SESSION["usuario"])) {
+        header("location: ../usuario/iniciar_sesion.php");
+        exit();
+    }
+
+    function depurar(string $entrada) : string {
+        $salida = htmlspecialchars($entrada); 
+        $salida = trim($salida); 
+        $salida = stripslashes($salida); 
+        $salida = preg_replace('/\s+/', ' ', $salida); 
+        return $salida; 
+    }
     ?>
 </head>
 <body>
 <div class="container">
+    <div class="d-flex justify-content-center"> 
+        <?php if (isset($_SESSION["usuario"])) {
+            echo "<h2>Bienvenid@ ". $_SESSION["usuario"] . "</h2>"; 
+            } else { 
+                echo "<h2>Bienvenid@ invitado</h2>"; 
+            } ?> 
+    </div>
+
     <?php
     
-
     // Si el formulario es enviado por POST
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Obtener el id_producto desde el formulario
@@ -37,6 +57,12 @@
     $sql = "SELECT * FROM productos";
     $resultado = $_conexion->query($sql); // Asegúrate de usar la variable correcta
     ?>
+
+    <ul class="nav justify-content-end">
+        <li>
+             <a class="btn btn-warning" href="../usuario/cerrar_sesion.php">Cerrar sesión</a>
+        </li>
+    </ul>
 
     <table class="table table-striped table-hover">
         <thead class="table-dark">
@@ -87,6 +113,8 @@
     <!-- Botón Nuevo Producto fuera de la tabla -->
     <div>
         <a class="btn btn-primary" href="nuevo_producto.php">Nuevo Producto</a>
+        <a class="btn btn-secondary" href="../index.php">Volver a Página Principal</a>
+        <a class="btn btn-primary" href="../categorias/index.php">Ir a Categorías</a>
     </div>
 </div>
 

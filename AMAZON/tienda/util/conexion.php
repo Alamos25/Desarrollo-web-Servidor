@@ -6,6 +6,6 @@
 
     
 
-    $_conexion = new mysqli($_servidor,$_usuario,$_contrasena, $_base_de_datos) //instancia un objeto
+    $_conexion = new mysqli($_servidor,$_usuario,$_contrasena, $_base_de_datos)
         or die("Error de conexión");
 ?>

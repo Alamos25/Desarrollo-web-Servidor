@@ -10,14 +10,21 @@
         ini_set("display_errors", 1);
 
         require('../util/conexion.php');
+
+        function depurar(string $entrada) : string {
+            $salida = htmlspecialchars($entrada); 
+            $salida = trim($salida); 
+            $salida = stripslashes($salida); 
+            $salida = preg_replace('/\s+/', ' ', $salida); 
+            return $salida; 
+        }
     ?>
 </head>
 <body>
     <div class="container">
-        <h1>Editar Producto</h1>
+    <h1>Editar Producto</h1>
         <?php
         $id_producto = $_GET["id_producto"];
-        // Consulta para obtener los datos del producto
         $sql = "SELECT * FROM productos WHERE id_producto = '$id_producto'";
         $resultado = $_conexion -> query($sql);
         
@@ -29,57 +36,52 @@
             $descripcion = $fila["descripcion"];
         }
         
-        // Consulta para obtener todas las categorías de la tabla 'categorias'
         $sql_categorias = "SELECT * FROM categorias";
         $resultado_categorias = $_conexion -> query($sql_categorias);
         ?>
 
         <?php
-        // Definir las variables de error
         $err_nombre = $err_precio = $err_categoria = $err_descripcion = '';
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Recuperamos los datos del formulario
-            $tmp_nombre = $_POST["nombre"];
-            $tmp_precio = $_POST["precio"];
-            $tmp_categoria = $_POST["categoria"];
-            $stock = $_POST["stock"];
-            $tmp_descripcion = $_POST["descripcion"];
+            $tmp_nombre = depurar($_POST["nombre"]);
+            $tmp_precio = depurar($_POST["precio"]);
+            $tmp_categoria = depurar($_POST["categoria"]);
+            $stock = depurar($_POST["stock"]);
+            $tmp_descripcion = depurar($_POST["descripcion"]);
 
-            // Validación del nombre
             if ($tmp_nombre == '') {
-                $err_nombre = "El nombre es obligatorio";
+                $err_nombre = "Nombre obligatorio";
             } elseif (strlen($tmp_nombre) < 3 || strlen($tmp_nombre) > 50) {
-                $err_nombre = "El nombre debe tener entre 3 y 50 caracteres";
+                $err_nombre = "El nombre debe tener entre 3 y 50 caractere";
             } else {
                 $nombre = $tmp_nombre;
             }
 
-            // Validación del precio
             if ($tmp_precio == '') {
-                $err_precio = "El precio es obligatorio";
+                $err_precio = "Precio obligatorio";
             } elseif (!preg_match("/^[0-9]{1,4}(\.[0-9]{1,2})?$/", $tmp_precio)) {
-                $err_precio = "El precio debe ser un número válido con hasta 4 dígitos y 2 decimales";
+                $err_precio = "Maximo 4 dígitos y 2 decimales";
             } else {
                 $precio = $tmp_precio;
             }
 
-            // Validación de la categoría
             if ($tmp_categoria == '') {
-                $err_categoria = "Debe seleccionar una categoría";
+                $err_categoria = "Selecciona una categoria";
             } else {
                 $categoria = $tmp_categoria;
             }
 
-            // Validación de la descripción
             if ($tmp_descripcion == '') {
-                $err_descripcion = "La descripción es obligatoria";
+                $err_descripcion = "Descripcion obligatoria";
             } else {
+                if(strlen($tmp_descripcion) > 255){
+                    $err_descripcion = "tmp_descripcion";
+                }
                 $descripcion = $tmp_descripcion;
             }
             
-            // Si no hay errores, actualizamos el producto
-            if (isset($nombre,$precio,$categoria,$stock,$descripcion)) {
+            if (isset($nombre, $precio, $categoria, $stock, $descripcion)) {
                 $sql_update = "UPDATE productos SET 
                     nombre = '$nombre', 
                     precio = '$precio', 
@@ -88,6 +90,7 @@
                     descripcion = '$descripcion'
                     WHERE id_producto = '$id_producto'";
                 $_conexion -> query($sql_update);
+                echo"<p>Producto actualizado correctamente.</p>";
             }
         }
         ?>
@@ -96,34 +99,34 @@
             <div class="mb-3">
                 <label class="form-label">Nombre</label>
                 <input class="form-control" type="text" name="nombre" value="<?php echo htmlspecialchars($nombre); ?>" >
-                <?php if ($err_nombre) echo "<span class='error' style='color: red;'>$err_nombre</span>"; ?>
+                <?php if ($err_nombre) echo "<span class='error'>$err_nombre</span>"; ?>
             </div>
             <div class="mb-3">
                 <label class="form-label">Precio</label>
                 <input class="form-control" type="text" name="precio" value="<?php echo htmlspecialchars($precio); ?>" >
-                <?php if ($err_precio) echo "<span class='error' style='color: red;'>$err_precio</span>"; ?>
+                <?php if ($err_precio) echo "<span class='error'>$err_precio</span>"; ?>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="categoria">Categoría:</label>
                 <select class="form-select" name="categoria" required>
-                    <option value="">Seleccione una categoría</option>
-                    <?php while ($categoria_db = $resultado_categorias->fetch_assoc()): ?>
-                        <option value="<?php echo htmlspecialchars($categoria_db['categoria']); ?>" 
-                            <?php echo ($categoria == $categoria_db['categoria']) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($categoria_db['categoria']); ?>
+                    <option disabled selected hidden>Seleccione una categoría</option>
+                    <?php while ($categoria_db = $resultado_categorias -> fetch_assoc()): ?>
+                        <option value="<?php echo $categoria_db['categoria']; ?>" 
+                        <?php echo ($categoria == $categoria_db['categoria']) ? 'selected' : ''; ?>>
+                        <?php echo $categoria_db['categoria']; ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
-                <?php if ($err_categoria) echo "<span class='error' style='color: red;'>$err_categoria</span>"; ?>
+                <?php if ($err_categoria) echo "<span class='error'>$err_categoria</span>"; ?>
             </div>
             <div class="mb-3">
                 <label class="form-label">Stock</label>
-                <input class="form-control" type="text" name="stock" value="<?php echo htmlspecialchars($stock); ?>" >
+                <input class="form-control" type="text" name="stock" value="<?php echo $stock; ?>" >
             </div>
             <div class="mb-3">
                 <label class="form-label" for="descripcion">Descripción:</label>
-                <textarea class="form-control" name="descripcion" rows="4" cols="50" ><?php echo htmlspecialchars($descripcion); ?></textarea>
-                <?php if ($err_descripcion) echo "<span class='error' style='color: red;'>$err_descripcion</span>"; ?>
+                <textarea class="form-control" name="descripcion" rows="4" cols="50" ><?php echo $descripcion; ?></textarea>
+                <?php if ($err_descripcion) echo "<span class='error'>$err_descripcion</span>"; ?>
             </div>
             <div class="mb-3">
                 <input type="hidden" name="id_producto" value="<?php echo $id_producto; ?>">
@@ -157,5 +160,4 @@ CREATE TABLE productos (
     descripcion VARCHAR(255),
     FOREIGN KEY (categoria) REFERENCES categorias(categoria)
 );
-
 -->

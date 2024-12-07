@@ -18,24 +18,21 @@
     ?>
 </head>
 <body>
-    <h1>Crear Categoría</h1>
+    <h1>Crear Categoria</h1>
     <?php
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $tmp_categoria = $_POST["categoria"];
             $tmp_descripcion = $_POST["descripcion"];
 
-            /* $categoria = "";
-            $descripcion = ""; */
-
             if($tmp_categoria  == ''){
-                $err_categoria = "La categoría es obligatoria";
+                $err_categoria = "Categoria obligatoria";
             }else{
                 $patron = "/^[a-zA-Z ]+$/";
                 if(!preg_match($patron,$tmp_categoria )){
-                    $err_categoria = "La categoría solo puede contener letras";
+                    $err_categoria = "Solo puede contener letras";
                 }else{
                     if(strlen($tmp_categoria) < 3 || strlen($tmp_categoria) > 50){
-                        $err_categoria = "La categoría no puede ser menor a 4 ni mayor a 40 caracteres";
+                        $err_categoria = "No puede ser menor a 4 ni mayor a 40 caractere";
                     }else{
                         $categoria = $tmp_categoria;
                     }
@@ -43,14 +40,13 @@
             }
 
 
-            if($tmp_descripcion == ''){
-                $err_descripcion = "La descripción es obligatoria";
-            }else{
+            if ($tmp_descripcion == ''){
+                $err_descripcion = "Descripción obligatoria";
+            } else {
                 $descripcion = $tmp_descripcion;
             }
-            if(isset($categoria) && isset($descripcion)){
-                $sql = "INSERT INTO categorias (categoria, descripcion) 
-                VALUES ('$categoria','$descripcion')";
+            if (isset($categoria) && isset($descripcion)){
+                $sql = "INSERT INTO categorias (categoria, descripcion) VALUES ('$categoria','$descripcion')";
 
                 $_conexion -> query($sql);
             }
@@ -76,6 +72,6 @@
             <a class="btn btn-secondary" href="index.php">Volver</a>
         </div>
     </form>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
