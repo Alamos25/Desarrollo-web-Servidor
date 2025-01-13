@@ -34,15 +34,43 @@
 
                 $categoria = depurar($_POST["categoria"]);
 
-                    $sql = "SELECT COUNT(*) as count FROM productos WHERE categoria = '$categoria'";
-                    $resultado = $_conexion->query($sql);
-                    $count = $resultado->fetch_assoc()["count"];
+                    //$sql = "SELECT COUNT(*) as count FROM productos WHERE categoria = '$categoria'";
+                    //$resultado = $_conexion->query($sql);
+                    //$count = $resultado->fetch_assoc()["count"];
+
+                    //1. Preparacion
+                    $sql = $_conexion -> prepare("SELECT COUNT(*) as count FROM productos WHERE categoria = ?");
+
+                    //2. Enlazado
+                    $sql -> bind_param("s", 
+                        $categoria
+                    );
+
+                    //3. Ejecución
+                    $sql -> execute();
+
+                    //4. Retrieve
+                    $resultado = $sql -> get_result();
+
+                    
 
                     if ($count > 0) {
                         echo "<p>No se elimina la categoría '$categoria' por tener un producto asociado. Borra el producto antes.</p>";
                     } else {
-                        $sql = "DELETE FROM categorias WHERE categoria = '$categoria'";
-                    if ($_conexion->query($sql)) {
+                        //$sql = "DELETE FROM categorias WHERE categoria = '$categoria'";
+                        # 1.Prepare
+                        $sql = $_conexion -> prepare("DELETE FROM categorias SET
+                        categoria = ?
+                        ");
+
+                        # 2.Binding
+                        $sql -> bind_param("s",
+                        $categoria
+                        );
+
+                        //3. Ejecución
+
+                    if ($sql -> execute()) {
                         echo "<p>La categoria se ha eliminado.</p>";
                     }
                 }

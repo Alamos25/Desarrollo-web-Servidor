@@ -45,7 +45,23 @@
         //echo "<h1>Borrando producto con ID: $id_producto</h1>";
 
         // Borrar producto usando el id correcto
-        $sql = "DELETE FROM productos WHERE id_producto = $id_producto";
+        //$sql = "DELETE FROM productos WHERE id_producto = $id_producto";
+            # 1.Prepare
+            $sql = $_conexion -> prepare("UPDATE categorias SET
+                descripcion = ?,
+                WHERE categoria = ?
+                ");
+        
+                # 2.Binding
+                $sql -> bind_param("ss",
+                $descripcion,
+                $categoria
+                );
+        
+                //3. Ejecución
+                $sql -> execute();
+                $_conexion -> close();
+                
         if ($_conexion->query($sql)) {
             echo "<p class='text-success'>Producto eliminado correctamente.</p>";
         } else {

@@ -18,14 +18,26 @@
         <?php
 
         $categoria = $_GET["categoria"];
-        $sql = "SELECT * FROM categorias WHERE categoria = '$categoria'";
-        $resultado = $_conexion -> query($sql);
+        //$sql = "SELECT * FROM categorias WHERE categoria = '$categoria'";
+        //$resultado = $_conexion -> query($sql);
 
+        //1. Preparacion
+        $sql = $_conexion -> prepare("SELECT * FROM categorias WHERE categoria = ?");
+
+        //2. Enlazado
+        $sql -> bind_param("s", 
+            $categoria
+        );
+
+        //3. Ejecución
+        $sql -> execute();
+
+        //4. Retrieve
+        $resultado = $sql -> get_result();
         
         while ($fila = $resultado -> fetch_assoc()){
             $categoria= $fila["categoria"];
             $descripcion = $fila["descripcion"];
-            
         }
         
 
@@ -41,13 +53,26 @@
             $categoria = $_POST["categoria"];
             $descripcion = $_POST["descripcion"];
 
-            $sql= "UPDATE categorias SET
-                descripcion = '$descripcion'
-                WHERE categoria = '$categoria'
-            ";
+            //$sql= "UPDATE categorias SET
+            //    descripcion = '$descripcion'
+            //    WHERE categoria = '$categoria'
+            //";
 
+            # 1.Prepare
+            $sql = $_conexion -> prepare("UPDATE categorias SET
+            descripcion = ?,
+            WHERE categoria = ?
+            ");
 
-            $_conexion -> query($sql);
+            # 2.Binding
+            $sql -> bind_param("ss",
+            $descripcion,
+            $categoria
+            );
+
+            //3. Ejecución
+            $sql -> execute();
+            $_conexion -> close();
         }
         ?>
         <form class="col-6" action="" method="post" enctype="multipart/form-data">

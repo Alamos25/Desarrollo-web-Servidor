@@ -25,9 +25,23 @@
     <h1>Editar Producto</h1>
         <?php
         $id_producto = $_GET["id_producto"];
-        $sql = "SELECT * FROM productos WHERE id_producto = '$id_producto'";
-        $resultado = $_conexion -> query($sql);
+        //$sql = "SELECT * FROM productos WHERE id_producto = '$id_producto'";
+        //$resultado = $_conexion -> query($sql);
         
+        //1. Preparacion
+        $sql = $_conexion -> prepare("SELECT * FROM productos WHERE id_producto = ?");
+
+        //2. Enlazado
+        $sql -> bind_param("s", 
+            $id_producto
+        );
+
+        //3. Ejecución
+        $sql -> execute();
+
+        //4. Retrieve
+        $resultado = $sql -> get_result();
+
         while($fila = $resultado -> fetch_assoc()){
             $nombre = $fila["nombre"];
             $precio = $fila["precio"];
@@ -82,16 +96,41 @@
             }
             
             if (isset($nombre, $precio, $categoria, $stock, $descripcion)) {
-                $sql_update = "UPDATE productos SET 
+                /*$sql_update = "UPDATE productos SET 
                     nombre = '$nombre', 
                     precio = '$precio', 
                     categoria = '$categoria', 
                     stock = '$stock', 
                     descripcion = '$descripcion'
                     WHERE id_producto = '$id_producto'";
-                $_conexion -> query($sql_update);
-                echo"<p>Producto actualizado correctamente.</p>";
-            }
+                $_conexion -> query($sql_update);*/
+
+                    # 1.Prepare
+                    $sql = $_conexion -> prepare("UPDATE productos SET
+                    nombre = ?,
+                    precio = ?,
+                    categoria = ?,
+                    stock = ?,
+                    descripcion = ?,
+                    WHERE id_producto = ?
+                    ");
+
+                    # 2.Binding
+                    $sql -> bind_param("sisisi",
+                    $nombre,
+                    $precio,
+                    $categoria,
+                    $stock,
+                    $descripcion,
+                    $id_producto
+                    );
+
+                    //3. Ejecución
+                    $sql -> execute();
+                    $_conexion -> close();
+                    
+                    echo"<p>Producto actualizado correctamente.</p>";
+                }
         }
         ?>
         
