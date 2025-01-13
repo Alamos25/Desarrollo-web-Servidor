@@ -28,10 +28,23 @@
             if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $id_anime = $_POST["id_anime"];
                 //borrar el anime
-                $sql = "DELETE FROM animes WHERE id_anime = $id_anime";
-                $_conexion -> query($sql);
+                //$sql = "DELETE FROM animes WHERE id_anime = $id_anime";
+                //$_conexion -> query($sql);
+
+                //1. preparacion
+                $sql = $_conexion -> prepare("DELETE FROM animes WHERE id_anime = ?");
+
+                //2. Enlazado
+                $sql -> bind_param("i", 
+                    $id_anime
+                );
+
+                //3. Ejecución
+                $sql -> execute();
             }
             $sql = "SELECT * FROM animes";
+            //cierre
+            $_conexion -> close();
             $resultado = $_conexion -> query($sql);
             /**
             * aplicamos la funcion query a la conexion, donde se ejecuta la sentencia SQL hecha
