@@ -1,0 +1,22 @@
+anime.php
+
+MOSTRAR:
+- titulo
+- imagen
+- nota
+- sinopsis
+- lista de generos
+- trailer (buscar el video embebido)
+- lista de animes relacionados. Solo el nombre del 
+anime. Solo se mostrarán los relacionados que sean 
+de type anime
+AHORA VAMOS A:
+
+Añadir a los animes una lista con los productores 
+de la serie. Los productores son las empresas encargadas
+ en producir el anime.
+
+Una vez hecha la lista, mostraremos en un archivo 
+productor.php el nombre por defecto del productor, 
+su imagen y la información sobre el productor que nos 
+provee la api (about)

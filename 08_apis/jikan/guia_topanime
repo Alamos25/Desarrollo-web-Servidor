@@ -1,0 +1,40 @@
+en top_anime.php:
+
+- radiobutton con tres opciones:
+-- Serie
+-- Película
+-- Todos
+
+Por defecto salen todos. Si type= (cadena vacia), salen todos
+
+Hacerlo TODO con metodo GET
+
+$tipo = $_GET["tipo"]
+"https://api.jikan.moe/v4/top/anime?type=$tipo"
+
+------------------------------------------------
+
+- Abajo de la pagina dos botones o enlaces "Anterior" y "Siguiente"
+
+- Si se con enlaces (a href), añadimos detras de la url ?page=$loquesea
+
+- Al principio del código preguntamos cuál es la página que no
+nos da la url, y la añadimos a la url de la api
+
+$page = $_GET["page"]
+"https://api.jikan.moe/v4/top/anime?page=$page"
+anime.php
+
+MOSTRAR:
+- titulo
+- imagen
+- nota
+- sinopsis
+- lista de generos
+- trailer (buscar el video embebido)
+- lista de animes relacionados. Solo el nombre del anime. Solo se mostrarán los relacionados que sean de type anime
+AHORA VAMOS A:
+
+Añadir a los animes una lista con los productores de la serie. Los productores son las empresas encargadas en producir el anime.
+
+Una vez hecha la lista, mostraremos en un archivo productor.php el nombre por defecto del productor, su imagen y la información sobre el productor que nos provee la api (about)
