@@ -61,18 +61,5 @@
             }
         ?>
     </ul>
-    <h3>
-    <ul>
-        <?php 
-            $productores = $anime["producers"];
-            foreach($productores as $productore) {
-                $entradas = $productore["name"];
-                if($entrada["type"] == "anime") {
-                    echo "<li>" . $entrada["name"] . "</li>";
-                }
-            }
-        ?>
-    </ul>
-    </h3>
 </body>
 </html>
